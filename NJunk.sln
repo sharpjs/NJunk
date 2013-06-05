@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NJunk", "NJunk\NJunk.csproj", "{25D44631-FF57-454F-8191-2AEC2C9B7BF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NJunk.Tests", "NJunk.Tests\NJunk.Tests.csproj", "{5978C106-A957-4A8B-A9D3-ECCF93CB6F7B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{25D44631-FF57-454F-8191-2AEC2C9B7BF0} = {25D44631-FF57-454F-8191-2AEC2C9B7BF0}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EF20D15-9559-4FC9-AC86-A5C929C67320}"
 	ProjectSection(SolutionItems) = preProject
