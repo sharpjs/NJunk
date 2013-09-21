@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
-using System.Security.Cryptography;
 
 namespace NJunk
 {
@@ -11,48 +7,61 @@ namespace NJunk
     {
         public static string UnicodeString(this Junk junk, int length)
         {
+            return UnicodeStringCore(Junk.Random, length);
+        }
+
+        public static string UnicodeString(this Random random, int length)
+        {
+            return UnicodeStringCore(Require(random), length);
+        }
+
+        private static string UnicodeStringCore(Random random, int length)
+        {
             if (length < 0)
                 throw new ArgumentNullException("length");
 
-            var random = Junk.Random;
-            var chars  = new char[length];
+            var chars = new char[length];
 
             for (var i = 0; i < length; i++)
-                chars[i] = UnicodeChar(random);
+                chars[i] = UnicodeCharCore(random);
 
             return new string(chars);
         }
 
         public static string AsciiString(this Junk junk, int length)
         {
+            return AsciiStringCore(Junk.Random, length);
+        }
+
+        public static string NextAsciiString(this Random random, int length)
+        {
+            return AsciiStringCore(Require(random), length);
+        }
+
+        private static string AsciiStringCore(Random random, int length)
+        {
             if (length < 0)
                 throw new ArgumentNullException("length");
 
-            var random = Junk.Random;
-            var chars  = new char[length];
+            var chars = new char[length];
 
             for (var i = 0; i < length; i++)
-                chars[i] = AsciiChar(random);
+                chars[i] = AsciiCharCore(random);
 
             return new string(chars);
         }
 
         public static char UnicodeChar(this Junk junk)
         {
-            return UnicodeChar(Junk.Random);
+            return UnicodeCharCore(Junk.Random);
         }
 
-        private static char AsciiChar(Random random)
+        public static char NextUnicodeChar(this Random random)
         {
-            return (char) random.Next(0x20, 0x80);
+            return UnicodeCharCore(Require(random));
         }
 
-        public static char AsciiChar(this Junk junk)
-        {
-            return AsciiChar(Junk.Random);
-        }
-
-        private static char UnicodeChar(Random random)
+        private static char UnicodeCharCore(Random random)
         {
             for (;;)
             {
@@ -60,6 +69,21 @@ namespace NJunk
                 if (0 != (DesirableUnicodeCategories & 1 << (int) char.GetUnicodeCategory(c)))
                     return c;
             }
+        }
+
+        public static char AsciiChar(this Junk junk)
+        {
+            return AsciiCharCore(Junk.Random);
+        }
+
+        public static char NextAsciiChar(this Random random)
+        {
+            return AsciiCharCore(Require(random));
+        }
+
+        private static char AsciiCharCore(Random random)
+        {
+            return (char) random.Next(0x20, 0x80);
         }
 
         private const int DesirableUnicodeCategories = 0
